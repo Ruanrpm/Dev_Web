@@ -1,0 +1,7 @@
+node -v
+npm i  -g typescript
+npm i  -g ts-node-dev
+npm i  -g @types/node
+tsc -v
+npm init -y
+npm i
