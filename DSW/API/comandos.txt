@@ -1,0 +1,21 @@
+node -v
+npm i  -g typescript
+npm i  -g ts-node-dev
+npm i  -g @types/node
+tsc -v
+npm init -y
+npm i
+
+
+npm i typescript
+npm i ts-node-dev
+npm i -D @types/node
+npm i --save-dev tsconfig-paths
+tsc --init
+npx ts-node-dev -r tsconfig-paths/register src/shared/http/server.ts
+
+npm i express@4
+npm i express-async-errors
+npm i cors
+npm i -D @types/express
+npm i -D @types/cors
