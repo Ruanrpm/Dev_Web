@@ -1,15 +1,16 @@
 import { DataSource } from "typeorm";
 import path from "node:path";
+import Product from "src/modules/products/typeorm/entities/Product";
 
 export const AppDataSource = new DataSource({
     type: "postgres",
     host: "localhost",
-    port: 5432,
+    port: 5433,
     username: "postgres",
-    password: "Doker",
+    password: "docker",
     database: "apivendas",
     synchronize: false,
     logging: true,
-    entities: [],
-    migrations: [path.join(__dirname, "migrations", "*.ts")]
+    entities: [Product],
+    migrations: [path.join("src", "shared", "typeorm", "migrations", "*.ts")]
 })
