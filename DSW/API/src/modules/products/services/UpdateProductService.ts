@@ -10,11 +10,13 @@ interface IRequest{
 }
 
 export default class UpdateProductService{
-    public async execute({name, price, quantity}: IRequest): Promise<Product>{
+    public async execute({id, name, price, quantity}: IRequest): Promise<Product>{
         const productRepository = AppDataSource.getRepository(Product);
 
         
-        const product = await productRepository.findOneBy({id});
+        const product = await productRepository.findOne({
+            where: { id },
+        });
         
         if(!product){
             throw new AppError('Product not found.');

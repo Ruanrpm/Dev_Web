@@ -71,9 +71,12 @@ export default class ProductController{
         next: NextFunction
         ): Promise<Response | void>{
         try{
-            const {id, name, price, quantity} = request.body;
+            const id = request.params.id as string;
+            const {name, price, quantity} = request.body;
+
             const updateProduct = new UpdateProductService();
-            const product = await updateProduct.execute({id, name, price, quantity})
+            const product = await updateProduct.execute({id, name, price, quantity});
+            
             return response.status(200).json(product);  
         }catch(err){
             next(err);

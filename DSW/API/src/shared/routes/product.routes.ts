@@ -1,8 +1,9 @@
 import { Router } from "express";
 import ProductController from "src/modules/products/controllers/ProductController";
+import { celebrate, Joi, Segments } from "celebrate";
 
 const productRouter = Router();
-const productController = new ProductController;
+const productController = new ProductController();
 
 productRouter.get('/', async (req, res, next)=>{
     try{
@@ -12,23 +13,52 @@ productRouter.get('/', async (req, res, next)=>{
     }
 });
 
-productRouter.get('/:id', async (req, res, next)=>{
-    try{
-        await productController.show(req, res, next);
-    }catch(err){
-        next(err);
+productRouter.get(
+  '/:id',
+  celebrate({
+    [Segments.PARAMS]: {
+      id: Joi.string().uuid().required(),
+    },
+  }),
+  async (req, res, next) => {
+    try {
+      await productController.show(req, res, next);
+    } catch (err) {
+      next(err);
     }
-});
+  }
+);
 
-productRouter.post('/', async (req, res, next)=>{
-    try{
-        await productController.create(req, res, next);
-    }catch(err){
-        next(err);
+productRouter.post(
+  '/',
+  celebrate({
+    [Segments.BODY]: {
+      name: Joi.string().required(),
+      price: Joi.number().precision(2).min(0).required(),
+      quantity: Joi.number().min(0).required(),
+    },
+  }),
+  async (req, res, next) => {
+    try {
+      await productController.create(req, res, next);
+    } catch (err) {
+      next(err);
     }
-});
+  }
+);
 
-productRouter.put('/:id', async (req, res, next)=>{
+productRouter.put('/:id',
+    celebrate({
+    [Segments.PARAMS]: {
+      id: Joi.string().uuid().required(),
+    },
+    [Segments.BODY]: {
+      name: Joi.string().required(),
+      price: Joi.number().precision(2).min(0).required(),
+      quantity: Joi.number().min(0).required(),
+    },
+  }),
+    async (req, res, next)=>{
     try{
         await productController.update(req, res, next);
     }catch(err){
@@ -36,7 +66,14 @@ productRouter.put('/:id', async (req, res, next)=>{
     }
 });
 
-productRouter.delete('/', async (req, res, next)=>{
+productRouter.delete(
+    '/:id',
+    celebrate({
+    [Segments.PARAMS]: {
+        id: Joi.string().uuid().required(),
+    },
+  }),
+    async (req, res, next)=>{
     try{
         await productController.delete(req, res, next);
     }catch(err){

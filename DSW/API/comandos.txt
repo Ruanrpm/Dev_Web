@@ -35,3 +35,6 @@ docker stop container
 
 rodar o docker:
 docker
+
+npm i celebrate
+npm i -D @types/joi
